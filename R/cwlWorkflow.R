@@ -64,13 +64,27 @@ cwlWorkflow <- function(cwlVersion = "v1.0", cwlClass = "Workflow",
 ## })
 
 setMethod("+", c("cwlWorkflow", "cwlStep"), function(e1, e2) {
+    ## whether outputs were already defined
+    if(length(steps(e1))==0){
+        if(length(e1@outputs) == 0){
+            attr(e1, "_outs") <- FALSE
+        }else if(length(e1@outputs) == 1 && e1@outputs[[1]]@type == "stdout"){
+            attr(e1, "_outs") <- FALSE
+        }else{
+            ##if(length(e1@outputs)>0){
+            attr(e1, "_outs") <- TRUE
+        }
+    }
+    
     ## first empty one
     if(length(inputs(e1))==0){
         e1@inputs <- stepInputs(list(e2))
-        e1@outputs <- stepOutputs(list(e2))
+        ##e1@outputs <- stepOutputs(list(e2))
     ## if inputs are not pre-defined
     }else if(!all(names(stepInputs(list(e2))) %in% names(inputs(e1)))){
         e1@inputs <- stepInputs(c(e1@steps@listData, e2))
+    }
+    if(!attr(e1, "_outs")){
         e1@outputs <- stepOutputs(c(e1@steps@listData, e2))
     }
     e1@steps <- do.call(cwlStepList, c(e1@steps@listData, e2))

@@ -99,7 +99,8 @@ cwlStep <- function(id, run = cwlProcess(),
 
 
 #' stepInputs
-#' 
+#'
+#' extract inputs in the format of id_name.
 #' @description prepare inputs for workflow from `cwlStep` objects
 #' @param stepList a list of `cwlStep` objects.
 #' @return InputParamList.

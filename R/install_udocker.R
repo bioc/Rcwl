@@ -17,7 +17,8 @@ install_udocker <- function(version = "1.3.4"){
     download.file(paste0("https://github.com/indigo-dc/udocker/releases/download/", version, "/udocker-", version, ".tar.gz"),
                   file.path(dirname(binPath), "udocker.tar.gz"))
     untar(file.path(dirname(binPath), "udocker.tar.gz"), exdir = dirname(dirname(binPath)))
-    system(paste0(dirname(dirname(binPath)), "/udocker/udocker install"))
+    
+    system(paste0(dirname(dirname(binPath)), "/udocker-", version, "/udocker/udocker install"))
     createLink(file.path(dirname(binPath), "udocker"),
                file.path(dirname(dirname(binPath)), "udocker", "udocker"), overwrite = TRUE)
     udocker_path <- Sys.which("udocker")

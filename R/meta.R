@@ -32,8 +32,8 @@ meta <- function(cwl){
         cwl@label <- value$label    
     if(!is.null(value$doc))
         cwl@doc <- value$doc
-    if(!is.null(value$extensions))
-        cwl@extensions <- value$extensions
+    ## if(!is.null(value$extensions))
+    ##     cwl@extensions <- value$extensions
 
     if(length(value$inputs)>0){
         idx <- match(names(value$inputs), names(inputs(cwl)))
@@ -56,6 +56,12 @@ meta <- function(cwl){
             cwl@steps[[i]]@label <- value$steps[[i]]$label
         }
     }
+
+    if(length(value$extensions) > 0){
+        ext <- cwl@extensions
+        cwl@extensions <- c(ext, value$extensions)
+    }
+
     return(cwl)
 }
 
@@ -186,7 +192,10 @@ addMeta <- function(cwl, label = character(), doc = character(),
                       doc = doc,
                       inputs = ilist,
                       outputs = olist,
-                      steps = slist,
-                      extensions = list(`$rud` = extensions))
+                      steps = slist)
+    ## extensions = list(`$ext` = extensions))
+    if(length(extensions) > 0){
+        meta(cwl) <- list(extensions = list(`$ext` = extensions))
+    }
     return(cwl)
 }

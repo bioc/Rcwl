@@ -17,3 +17,4 @@ VignetteBuilder: knitr
 RoxygenNote: 7.3.1
 biocViews: Software, WorkflowStep, ImmunoOncology
 StagedInstall: no
+Config/Bioconductor/UnsupportedPlatforms: windows
